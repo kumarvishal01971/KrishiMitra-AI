@@ -11,7 +11,7 @@ const Footer = () => (
     opacity: 0.5,
     fontSize: 12
   }}>
-    AgroSense AI Farm Intelligence • Python FastAPI + React • Keras Disease Model
+    कृषि Mitra AI Farm Manager • Python FastAPI + React • Keras Disease Model @2026
   </footer>
 );
 
