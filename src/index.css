@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #4d5e52;
+  background-color: #202c21;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,10 +24,16 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  display: block;
   min-width: 320px;
   min-height: 100vh;
+  width: 100%;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: block;
 }
 
 h1 {
@@ -56,13 +62,34 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #e9f3db;
+    color: #0F2918;
+    background-color: #E8F5E9;
   }
   a:hover {
-    color: #747bff;
+    color: #2D7A3F;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: #F5F5F5;
   }
+}
+
+/* Thin scrollbars (horizontal + vertical) */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+}
+
+/* WebKit browsers (Chrome, Edge, Safari) */
+*::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }

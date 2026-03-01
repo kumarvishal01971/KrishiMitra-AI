@@ -55,7 +55,13 @@ const DiseaseDetection = () => {
         />
 
         <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
-          <Btn icon="camera" onClick={detect} loading={loading} disabled={!file}>
+          <Btn 
+            icon="camera" 
+            onClick={detect} 
+            loading={loading} 
+            disabled={!file}
+            style={{ background: `linear-gradient(135deg, #1A4D2E, #2D7A3F)` }}
+          >
             Analyze Plant
           </Btn>
           {preview && (
@@ -66,7 +72,7 @@ const DiseaseDetection = () => {
         </div>
       </div>
 
-      <div>
+      <div style={{ marginTop: result ? 40 : 0 }}>
         {!result ? (
           <Card style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 16 }}>
             <div style={{ padding: 24, borderRadius: "50%", background: `${theme.earth}33` }}>

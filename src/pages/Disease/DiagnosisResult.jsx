@@ -33,7 +33,7 @@ const DiagnosisResult = ({ result }) => (
       </div>
     )}
 
-    <div style={{ background: `${theme.sky}33`, borderRadius: 12, padding: 16, borderLeft: `3px solid ${theme.rain}` }}>
+    <div style={{ background: `${theme.sky}33`, borderRadius: 12, padding: 26, borderLeft: `3px solid ${theme.rain}` }}>
       <p style={{ color: theme.mist, fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>TREATMENT SOLUTION</p>
       <p style={{ color: theme.cream, lineHeight: 1.7, fontSize: 14 }}>{result.solution}</p>
     </div>

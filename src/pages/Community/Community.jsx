@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Card from '../../components/common/Card';
 import Btn from '../../components/common/Button';
 import Badge from '../../components/common/Badge';
+import Videos from '../Videos/Videos';
 import { theme } from '../../styles/theme';
 
 const Community = () => {
@@ -22,6 +23,9 @@ const Community = () => {
 
   return (
     <div>
+      <div style={{ marginBottom: 28 }}>
+        <Videos />
+      </div>
       <h2 style={{ color: theme.wheat, fontFamily: "'Playfair Display', serif", fontSize: 28, marginBottom: 8 }}>
         Farmer Community
       </h2>

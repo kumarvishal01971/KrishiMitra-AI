@@ -43,10 +43,10 @@ const Chatbot = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 200px)" }}>
       <h2 style={{ color: theme.wheat, fontFamily: "'Playfair Display', serif", fontSize: 28, marginBottom: 4 }}>
-        AgroBot AI Chat
+        KisanGPT - Fasal Ka Dost
       </h2>
       <p style={{ color: theme.mist, marginBottom: 16, opacity: 0.8, fontSize: 14 }}>
-        Farming expert powered by AI — restricted to agricultural topics
+        Farm Manager powered by AI — "आपका सवाल, हमारा जवाब"
       </p>
 
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
