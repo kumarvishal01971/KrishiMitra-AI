@@ -172,3 +172,85 @@ export const demoDiseaseResult = {
   disease: "Late Blight", confidence: 0.91, severity: "High",
   solution: "Apply copper-based fungicide. Remove infected leaves. Avoid overhead watering.",
 };
+
+
+// ── REPLACE getMandiPrices at the bottom of src/api/api.js ───
+
+const DATAGOV_KEY = import.meta.env?.VITE_DATAGOV_API_KEY
+  || '579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b';
+
+// Format date as DD/MM/YYYY for the API filter
+const formatDate = (date) => {
+  const d = String(date.getDate()).padStart(2, '0');
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const y = date.getFullYear();
+  return `${d}/${m}/${y}`;
+};
+
+// Try today, then walk back up to 7 days to find the most recent data
+const fetchWithFallbackDates = async (params) => {
+  const today = new Date();
+
+  for (let daysBack = 0; daysBack <= 7; daysBack++) {
+    const date = new Date(today);
+    date.setDate(today.getDate() - daysBack);
+    const dateStr = formatDate(date);
+
+    const p = new URLSearchParams(params);
+    p.set('filters[Arrival_Date]', dateStr);
+    p.set('limit', 100);
+
+    const res = await fetch(`/api/mandi?${p.toString()}`, {
+      signal: AbortSignal.timeout(12000),
+    });
+
+    if (res.status === 403) throw new Error('Invalid API key — check VITE_DATAGOV_API_KEY in .env');
+    if (!res.ok) continue;
+
+    const data = await res.json();
+    if (data.records?.length > 0) {
+      return { records: data.records, fetchedDate: dateStr };
+    }
+  }
+  return { records: [], fetchedDate: null };
+};
+
+export const getMandiPrices = async (state = '', commodity = '', limit = 60) => {
+  const baseParams = {
+    'api-key': DATAGOV_KEY,
+    format: 'json',
+    offset: 0,
+  };
+  if (state && state !== 'All States') baseParams['filters[State]']     = state;
+  if (commodity)                        baseParams['filters[Commodity]'] = commodity;
+
+  const { records: raw, fetchedDate } = await fetchWithFallbackDates(baseParams);
+
+  if (!raw.length) throw new Error('No recent mandi data found. Try a different filter.');
+
+  // Normalise field names
+  const normalised = raw.map(r => ({
+    commodity:    r.Commodity    || r.commodity    || '',
+    market:       r.Market       || r.market       || '',
+    state:        r.State        || r.state        || '',
+    district:     r.District     || r.district     || '',
+    variety:      r.Variety      || r.variety      || '',
+    min_price:    r.Min_Price    || r.min_price    || '0',
+    max_price:    r.Max_Price    || r.max_price    || '0',
+    modal_price:  r.Modal_Price  || r.modal_price  || '0',
+    arrival_date: r.Arrival_Date || r.arrival_date || fetchedDate || '',
+  }));
+
+  // Deduplicate: keep only one entry per commodity+market (highest modal price wins)
+  const seen = new Map();
+  for (const r of normalised) {
+    const key = `${r.commodity}||${r.market}`;
+    const existing = seen.get(key);
+    if (!existing || Number(r.modal_price) > Number(existing.modal_price)) {
+      seen.set(key, r);
+    }
+  }
+
+  const deduped = Array.from(seen.values());
+  return { records: deduped, total: deduped.length, date: fetchedDate };
+};
