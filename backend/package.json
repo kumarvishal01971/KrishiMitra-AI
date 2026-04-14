@@ -1,0 +1,19 @@
+{
+  "name": "agrosense-backend",
+  "version": "1.0.0",
+  "description": "Backend server for AgroSense AI application",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "node-fetch": "^3.3.2"
+  },
+  "keywords": ["agriculture", "ai", "backend"],
+  "author": "",
+  "license": "ISC"
+}
